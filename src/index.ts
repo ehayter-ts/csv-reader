@@ -54,29 +54,16 @@ async function onexecuteSplit(methodName: string, properties: SingleRecord): Pro
 function onexecuteLinesSplit(properties: SingleRecord): Promise<void> {
     return new Promise<void>((resolve, reject) =>
     {
-        postResult({
-                        "line": properties["file"].content
-                    });
-                    resolve();
         // var xhr = new XMLHttpRequest();
         // xhr.onreadystatechange = function() {
-        //     try {
-        //         if (xhr.readyState !== 4) return;
-        //         if (xhr.status !== 200) throw new Error("Failed with status " + xhr.status);
-
-        //         var obj = JSON.parse(xhr.responseText);
-        //         postResult({
-        //             "id": obj.id,
-        //             "userId": obj.userId,
-        //             "title": obj.title,
-        //             "completed": obj.completed
-        //         });
-        //         resolve();
-        //     } catch (e) {
-        //         reject(e);
-        //     }
-        // };
-        
+            try {
+                postResult({
+                    "line": properties["file"].content
+                });
+                resolve();
+            } catch (e) {
+                reject(e);
+            }        
         // if(typeof properties["id"] !== "number") throw new Error("properties[\"id\"] is not of type number");
         // xhr.open("GET", 'https://jsonplaceholder.typicode.com/todos/' + encodeURIComponent(properties["id"]));
         // xhr.setRequestHeader('test', 'test value');

@@ -59,6 +59,3 @@ typings/
 
 # Visual Studio
 .vs
-
-# Build Results
-dist/

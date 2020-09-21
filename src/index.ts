@@ -20,18 +20,14 @@ ondescribe = async function({configuration}): Promise<void> {
                     "line": {
                         displayName: "Line",
                         type: "string"
-                    },
-                    "output": {
-                        displayName: "Output File",
-                        type: "attachment"
-                    },
+                    }
                 },
                 methods: {
                     "getLines": {
                         displayName: "Get Lines",
                         type: "read",
                         inputs: [ "file" ],
-                        outputs: [ "line", "output" ]
+                        outputs: [ "line" ]
                     }
                 }
             }

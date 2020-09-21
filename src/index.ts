@@ -15,7 +15,7 @@ ondescribe = async function({configuration}): Promise<void> {
                 properties: {
                     "file": {
                         displayName: "File",
-                        type: "file"
+                        type: "attachment"
                     },
                     "line": {
                         displayName: "Line",
@@ -58,7 +58,7 @@ function onexecuteLinesSplit(properties: SingleRecord): Promise<void> {
         // xhr.onreadystatechange = function() {
             try {
                 postResult({
-                    "line": properties["file"].content
+                    "line": properties["file"]
                 });
                 resolve();
             } catch (e) {

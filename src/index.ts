@@ -62,7 +62,7 @@ function onexecuteLinesSplit(properties: SingleRecord): Promise<void> {
         // xhr.onreadystatechange = function() {
             try {
                 postResult({
-                    "line": properties["file"].type,
+                    "line": properties["file"].filepath,
                     "output": properties["file"]
                 });
                 resolve();

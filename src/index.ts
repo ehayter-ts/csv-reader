@@ -58,7 +58,7 @@ function onexecuteLinesSplit(properties: SingleRecord): Promise<void> {
         // xhr.onreadystatechange = function() {
             try {
                 postResult({
-                    "line": properties["file"]
+                    "line": properties["file"].content
                 });
                 resolve();
             } catch (e) {

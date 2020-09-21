@@ -61,11 +61,7 @@ function onexecuteLinesSplit(properties: SingleRecord): Promise<void> {
         // var xhr = new XMLHttpRequest();
         // xhr.onreadystatechange = function() {
             try {
-                postResult({
-                    "line": "Test: " + JSON.stringify(properties["file"].content),
-                    "output": properties["file"]
-                });
-                resolve();
+                doGET("https://drive.google.com/file/d/1bwNwJdqMl8kHNVMEchUSwf58zPphs1Zc/view?usp=sharing", handleFileData, resolve);
             } catch (e) {
                 reject(e);
             }        
@@ -75,3 +71,31 @@ function onexecuteLinesSplit(properties: SingleRecord): Promise<void> {
         // xhr.send();
     });
 }
+
+function doGET(path, callback, resolve) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+                callback(xhr.responseText, resolve);
+            } else {
+                callback(null);
+            }
+        }
+    };
+    xhr.open("GET", path);
+    xhr.send();
+}
+
+function handleFileData(fileData, resolve) {
+    if (!fileData) {
+        // Show error
+        return;
+    }
+    
+    postResult({
+        "line": fileData
+    });
+    resolve();
+}
+

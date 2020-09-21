@@ -20,14 +20,18 @@ ondescribe = async function({configuration}): Promise<void> {
                     "line": {
                         displayName: "Line",
                         type: "string"
-                    }
+                    },
+                    "output": {
+                        displayName: "Output File",
+                        type: "attachment"
+                    },
                 },
                 methods: {
                     "getLines": {
                         displayName: "Get Lines",
                         type: "read",
                         inputs: [ "file" ],
-                        outputs: [ "line", "file" ]
+                        outputs: [ "line", "output" ]
                     }
                 }
             }
@@ -59,7 +63,7 @@ function onexecuteLinesSplit(properties: SingleRecord): Promise<void> {
             try {
                 postResult({
                     "line": properties["file"].filename,
-                    "file": properties["file"]
+                    "output": properties["file"]
                 });
                 resolve();
             } catch (e) {

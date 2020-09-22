@@ -54,19 +54,15 @@ async function onexecuteSplit(methodName: string, properties: SingleRecord): Pro
 function onexecuteLinesSplit(properties: SingleRecord): Promise<void> {
     return new Promise<void>((resolve, reject) =>
     {
-        // var xhr = new XMLHttpRequest();
-        // xhr.onreadystatechange = function() {
             try {
+                const buff = Buffer.from(properties["fileContent"].toString(), 'base64');
+                const str = buff.toString('utf-8');
                 postResult({
-                    "line": properties["fileContent"]
+                    "line": str
                 });
                 resolve();
             } catch (e) {
                 reject(e);
             }        
-        // if(typeof properties["id"] !== "number") throw new Error("properties[\"id\"] is not of type number");
-        // xhr.open("GET", 'https://jsonplaceholder.typicode.com/todos/' + encodeURIComponent(properties["id"]));
-        // xhr.setRequestHeader('test', 'test value');
-        // xhr.send();
     });
 }

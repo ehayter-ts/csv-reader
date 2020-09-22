@@ -3,7 +3,19 @@ import '@k2oss/k2-broker-core';
 metadata = {
     systemName: "csvreader",
     displayName: "CSV Reader Broker",
-    description: "A broker that reads a CSV file and returns each line as a list."
+    description: "A broker that reads a CSV file and returns each line as a list.",
+    configuration: {
+        "FirstRowIsHeader": {
+            displayName: "First Row Is Header",
+            type: "boolean",
+            value: true
+        },
+        "LineSplitChar": {
+            displayName: "Line Split Character",
+            type: "string",
+            value: "newline"
+        }
+    }
 };
 
 ondescribe = async function({configuration}): Promise<void> {
@@ -38,35 +50,47 @@ ondescribe = async function({configuration}): Promise<void> {
 onexecute = async function({objectName, methodName, parameters, properties, configuration, schema}): Promise<void> {
     switch (objectName)
     {
-        case "lines": await onexecuteSplit(methodName, properties); break;
+        case "lines": await onexecuteSplit(methodName, properties, configuration); break;
         default: throw new Error("The object " + objectName + " is not supported.");
     }
 }
 
-async function onexecuteSplit(methodName: string, properties: SingleRecord): Promise<void> {
+async function onexecuteSplit(methodName: string, properties: SingleRecord, configuration: SingleRecord): Promise<void> {
     switch (methodName)
     {
-        case "getLines": await onexecuteLinesSplit(properties); break;
+        case "getLines": await onexecuteLinesSplit(properties, configuration); break;
         default: throw new Error("The method " + methodName + " is not supported.");
     }
 }
 
-function onexecuteLinesSplit(properties: SingleRecord): Promise<void> {
+function onexecuteLinesSplit(properties: SingleRecord, configuration: SingleRecord): Promise<void> {
     return new Promise<void>((resolve, reject) =>
     {
             try {
                 const str = Base64.decode(getBase64FromContent(properties["fileContent"].toString()));
-                var lines = str.split(/\r?\n/);
+                var lines = [];
+                
+                if (configuration["LineSplitChar"].toString() == "newline")
+                {
+                    lines = str.split(/\r?\n/);
+                }
+                else
+                {
+                    lines = str.split(configuration["LineSplitChar"].toString());
+                }
+                
                 var lineObj = [];
 
-                for (let index = 0; index < lines.length; index++) {
+                var startIndex = configuration["FirstRowIsHeader"] ? 1 : 0;
+
+                for (let index = startIndex; index < lines.length; index++) {
                     lineObj.push({ line: lines[index] });                    
                 }
 
                 postResult(lineObj.map(x => {
                     return {
                         "line": x.line }}));
-                        
+
                 resolve();
             } catch (e) {
                 reject(e);

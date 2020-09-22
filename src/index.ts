@@ -1,4 +1,5 @@
 import '@k2oss/k2-broker-core';
+const bufferFrom = require('buffer-from');
 
 metadata = {
     systemName: "csvreader",
@@ -55,8 +56,9 @@ function onexecuteLinesSplit(properties: SingleRecord): Promise<void> {
     return new Promise<void>((resolve, reject) =>
     {
             try {
-                const buff = Buffer.from(properties["fileContent"].toString(), 'base64');
+                const buff = bufferFrom(properties["fileContent"].toString(), 'base64');
                 const str = buff.toString('utf-8');
+                
                 postResult({
                     "line": str
                 });

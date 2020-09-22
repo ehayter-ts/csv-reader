@@ -25,7 +25,7 @@ ondescribe = async function({configuration}): Promise<void> {
                 methods: {
                     "getLines": {
                         displayName: "Get Lines",
-                        type: "read",
+                        type: "list",
                         inputs: [ "fileContent" ],
                         outputs: [ "line" ]
                     }
@@ -56,10 +56,17 @@ function onexecuteLinesSplit(properties: SingleRecord): Promise<void> {
     {
             try {
                 const str = Base64.decode(getBase64FromContent(properties["fileContent"].toString()));
-                                
-                postResult({
-                    "line": str
-                });
+                var lines = str.split(/\r?\n/);
+                var lineObj = [];
+
+                for (let index = 0; index < lines.length; index++) {
+                    lineObj.push({ line: lines[index] });                    
+                }
+
+                postResult(lineObj.map(x => {
+                    return {
+                        "line": x.line }}));
+                        
                 resolve();
             } catch (e) {
                 reject(e);

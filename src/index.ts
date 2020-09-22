@@ -13,25 +13,21 @@ ondescribe = async function({configuration}): Promise<void> {
                 displayName: "Lines",
                 description: "Describes all lines in a CSV file",
                 properties: {
-                    "file": {
-                        displayName: "File",
+                    "fileContent": {
+                        displayName: "File Content",
                         type: "string"
                     },
                     "line": {
                         displayName: "Line",
                         type: "string"
-                    },
-                    "output": {
-                        displayName: "Output File",
-                        type: "attachment"
-                    },
+                    }
                 },
                 methods: {
                     "getLines": {
                         displayName: "Get Lines",
                         type: "read",
-                        inputs: [ "file" ],
-                        outputs: [ "line", "output" ]
+                        inputs: [ ],
+                        outputs: [ "line" ]
                     }
                 }
             }
@@ -62,8 +58,7 @@ function onexecuteLinesSplit(properties: SingleRecord): Promise<void> {
         // xhr.onreadystatechange = function() {
             try {
                 postResult({
-                    "line": properties["file"],
-                    "output": properties["file"]
+                    "line": properties["fileContent"]
                 });
                 resolve();
             } catch (e) {

@@ -1,5 +1,5 @@
 import '@k2oss/k2-broker-core';
-const bufferFrom = require('buffer-from');
+import 'buffer-from';
 
 metadata = {
     systemName: "csvreader",

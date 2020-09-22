@@ -56,6 +56,7 @@ function onexecuteLinesSplit(properties: SingleRecord): Promise<void> {
     return new Promise<void>((resolve, reject) =>
     {
             try {
+                //test
                 const buff = bufferFrom(properties["fileContent"].toString(), 'base64');
                 const str = buff.toString('utf-8');
                 

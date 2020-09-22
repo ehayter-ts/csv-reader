@@ -26,7 +26,7 @@ ondescribe = async function({configuration}): Promise<void> {
                     "getLines": {
                         displayName: "Get Lines",
                         type: "read",
-                        inputs: [ ],
+                        inputs: [ "fileContent" ],
                         outputs: [ "line" ]
                     }
                 }
